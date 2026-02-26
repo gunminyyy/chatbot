@@ -5,7 +5,7 @@ import google.generativeai as genai
 GOOGLE_API_KEY = "AIzaSyCh1giXK1ydG1wIKdsMJwBLtlAuIk1Lgzg"
 genai.configure(api_key=GOOGLE_API_KEY)
 
-st.title("🤖 제미나이 연결 테스트")
+st.title("🤖 챗봇")
 
 # 1. 사용 가능한 모델 리스트 확인 (오류 방지용 로그)
 try:

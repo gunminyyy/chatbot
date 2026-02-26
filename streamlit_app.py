@@ -8,9 +8,9 @@ st.caption("OpenAI 대신 구글 제미나이 API를 사용하는 챗봇입니�
 
 # 2. API 키 설정 (직접 입력하거나 Secrets 사용)
 # 테스트를 위해 아래 따옴표 안에 발급받은 제미나이 키를 넣으세요.
-GOOGLE_API_KEY = "여기에_복사한_제미나이_키를_넣으세요"
+GOOGLE_API_KEY = "AIzaSyCh1giXK1ydG1wIKdsMJwBLtlAuIk1Lgzg"
 
-if not GOOGLE_API_KEY or GOOGLE_API_KEY == "여기에_복사한_제미나이_키를_넣으세요":
+if not GOOGLE_API_KEY or GOOGLE_API_KEY == "AIzaSyCh1giXK1ydG1wIKdsMJwBLtlAuIk1Lgzg":
     st.warning("⚠️ 제미나이 API 키를 코드에 입력해주세요!")
     st.stop()
 

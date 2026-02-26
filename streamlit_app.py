@@ -1,29 +1,21 @@
-import streamlit as st
-import google.generativeai as genai
+# ... (상단 설정 코드는 동일)
 
-# API 키 설정
-GOOGLE_API_KEY = "AIzaSyCh1giXK1ydG1wIKdsMJwBLtlAuIk1Lgzg"
-genai.configure(api_key=GOOGLE_API_KEY)
+# [수정] 대화 기록을 제미나이가 이해할 수 있는 형식으로 변환
+history = []
+for msg in st.session_state.messages:
+    # 제미나이는 'assistant' 대신 'model'이라는 단어를 사용합니다.
+    role = "model" if msg["role"] == "assistant" else "user"
+    history.append({"role": role, "parts": [msg["content"]]})
 
-st.title("🤖 챗봇")
+# [수정] 대화 세션 시작 (과거 기록을 통째로 넘겨줌)
+chat_session = model.start_chat(history=history)
 
-# 1. 사용 가능한 모델 리스트 확인 (오류 방지용 로그)
-try:
-    available_models = [m.name for m in genai.list_models() if 'generateContent' in m.supported_generation_methods]
-    st.write(f"현재 사용 가능한 모델: {available_models[0]}") # 가장 첫 번째 모델 표시
-    target_model = available_models[0] # 자동으로 사용 가능한 모델 선택
-except Exception as e:
-    st.error(f"모델 목록을 불러오지 못했습니다: {e}")
-    target_model = 'gemini-pro' # 기본값 설정
-
-if prompt := st.chat_input("테스트 메시지를 입력하세요"):
+if prompt := st.chat_input("질문을 입력하세요"):
     st.chat_message("user").markdown(prompt)
-    
+    st.session_state.messages.append({"role": "user", "content": prompt})
+
     with st.chat_message("assistant"):
-        try:
-            # 안전하게 검색된 모델 이름을 사용하거나 'gemini-pro' 사용
-            model = genai.GenerativeModel(target_model)
-            response = model.generate_content(prompt)
-            st.markdown(response.text)
-        except Exception as e:
-            st.error(f"대답 생성 중 오류 발생: {e}")
+        # 이제 AI가 이전 대화를 다 알고 답변합니다!
+        response = chat_session.send_message(prompt)
+        st.markdown(response.text)
+        st.session_state.messages.append({"role": "assistant", "content": response.text})
